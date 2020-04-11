@@ -22,6 +22,12 @@ class ConferenceController extends AbstractController
 
     /**
      * @Route("/", name="homepage")
+     * @param ConferenceRepository $conferenceRepository
+     *
+     * @return Response
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
     public function index(ConferenceRepository $conferenceRepository)
     {
@@ -32,12 +38,26 @@ class ConferenceController extends AbstractController
 
     /**
      * @Route("/conference/{id}", name="conference")
+     * @param Request              $request
+     * @param Conference           $conference
+     * @param CommentRepository    $commentRepository
+     * @param ConferenceRepository $conferenceRepository
+     *
+     * @return Response
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
-    public function show(Request $request, Conference $conference, CommentRepository $commentRepository)
-    {
+    public function show(
+        Request $request,
+        Conference $conference,
+        CommentRepository $commentRepository,
+        ConferenceRepository $conferenceRepository
+    ) {
         $offset = max(0, $request->query->getInt('offset',0));
         $paginator = $commentRepository->getCommentPaginator($conference,$offset);
         return new Response($this->twig->render('conference/show.html.twig',[
+            'conferences' => $conferenceRepository->findAll(),
             'conference' => $conference,
             'comments' => $paginator,
             'previous' => $offset -  CommentRepository::PAGINATOR_PER_PAGE,
