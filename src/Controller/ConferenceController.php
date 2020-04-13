@@ -7,6 +7,7 @@ use App\Entity\Conference;
 use App\Form\CommentFormType;
 use App\Repository\CommentRepository;
 use App\Repository\ConferenceRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,10 +17,18 @@ use Twig\Environment;
 class ConferenceController extends AbstractController
 {
     private $twig;
+    private $entityManager;
 
-    public function __construct(Environment $twig)
+    /**
+     * ConferenceController constructor.
+     *
+     * @param Environment            $twig
+     * @param EntityManagerInterface $entityManager
+     */
+    public function __construct(Environment $twig, EntityManagerInterface $entityManager)
     {
         $this->twig = $twig;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -43,7 +52,7 @@ class ConferenceController extends AbstractController
      * @param Request              $request
      * @param Conference           $conference
      * @param CommentRepository    $commentRepository
-     * @param ConferenceRepository $conferenceRepository
+     * @param string               $photoDir
      *
      * @return Response
      * @throws \Twig\Error\LoaderError
@@ -54,16 +63,32 @@ class ConferenceController extends AbstractController
         Request $request,
         Conference $conference,
         CommentRepository $commentRepository,
-        ConferenceRepository $conferenceRepository
+        string $photoDir
     ) {
 
         $comment = new Comment();
         $form = $this->createForm(CommentFormType::class,$comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setConference($conference);
+            if ($photo = $form['photo']->getData()) {
+                $filename = bin2hex(random_bytes(6)).'.'.$photo->guessExtension();
+                try {
+                    $photo->move($photoDir, $filename);
+                } catch (FileException $e) {
+                    // unable to upload the photo, give up
+                }
+            $comment->setPhotoFilename($filename);
+            }
+            $this->entityManager->persist($comment);
+            $this->entityManager->flush();
+            return $this->redirectToRoute('conference', ['slug' => $conference->getSlug()]);
+        }
 
         $offset = max(0, $request->query->getInt('offset',0));
         $paginator = $commentRepository->getCommentPaginator($conference,$offset);
         return new Response($this->twig->render('conference/show.html.twig',[
-            'conferences' => $conferenceRepository->findAll(),
             'conference' => $conference,
             'comments' => $paginator,
             'previous' => $offset -  CommentRepository::PAGINATOR_PER_PAGE,
