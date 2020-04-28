@@ -15,3 +15,17 @@ Los pasos para ejecutar el proyecto son:
 4. Añadir los datos de prueba a la bbdd: **$symfony console doctrine:fixtures:load**
 5. Levantar por lo menos un consumidor de rabbit: **$symfony run -d --watch=config,src,templates,vendor symfony console
 messenger:consume async**
+
+----------------------------------
+
+**Durante el desarrollo con Bootstrap**
+
+Durante el desarrollo, la compilación de los assets se puede hacer a través
+del comando encore dev :
+
+`$ symfony run yarn encore dev`
+
+En lugar de ejecutar el comando cada vez que haya un cambio, déjalo
+corriendo en segundo plano para que reaccione a los cambios en JS y CSS:
+
+`$ symfony run -d yarn encore dev --watch`
