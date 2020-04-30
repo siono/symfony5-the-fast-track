@@ -13,8 +13,7 @@ Los pasos para ejecutar el proyecto son:
 2. Arracar los servicios de docker compose: **$docker-compose up -d**
 3. Ejecutar las migraciones: **$symfony console doctrine:migrations:migrate**
 4. Añadir los datos de prueba a la bbdd: **$symfony console doctrine:fixtures:load**
-5. Levantar por lo menos un consumidor de rabbit: **$symfony run -d --watch=config,src,templates,vendor symfony console
-messenger:consume async**
+5. Levantar por lo menos un consumidor de rabbit: **$symfony run -d --watch=config,src,templates,vendor symfony console messenger:consume async**
 
 ----------------------------------
 
