@@ -24,22 +24,15 @@ class StepInfoCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Add a short description for your command')
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
+            ->setDescription('Show tag Git in the commit now')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $step = $this->cache->get('app.current_step', function ($item) {
-            $process = new Process(['git', 'tag', '-l', '--points-at','HEAD']);
-            $process->mustRun();
-            $item->expiresAfter(30);
-            return $process->getOutput();
-        });
-
-        $output->writeln($step);
+        $process = new Process(['git', 'tag', '-l', '--points-at', 'HEAD']);
+        $process->mustRun();
+        $output->write($process->getOutput());
         return 0;
     }
 }

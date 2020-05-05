@@ -28,3 +28,10 @@ En lugar de ejecutar el comando cada vez que haya un cambio, déjalo
 corriendo en segundo plano para que reaccione a los cambios en JS y CSS:
 
 `$ symfony run -d yarn encore dev --watch`
+
+
+**Comandos desarrolados**
+
+    `$ symfony console app:comment:cleanup`  : limpia los comentarios rejected de la bbdd.
+    `$ symfony console app:step:info`        : muestra el paso actual en el que estamos trabajando(para ser más precisos, 
+                                               el nombre de la etiqueta Git adjuntada al commit actual de Git)
