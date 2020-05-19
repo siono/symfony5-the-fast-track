@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="es" target-language="es" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="LNAVleg" resname="Give your feedback!">
+        <source>Give your feedback!</source>
+        <target>Dame tu opinión!</target>
+      </trans-unit>
+      <trans-unit id="3Mg5pAF" resname="View">
+        <source>View</source>
+        <target>Ver</target>
+      </trans-unit>
+      <trans-unit id="eOy4.6V" resname="Conference Guestbook">
+        <source>Conference Guestbook</source>
+        <target>Conferencia Libro de Visitas</target>
+      </trans-unit>
+      <trans-unit id="eOay4.6" resname="Your name">
+        <source>Your name</source>
+        <target>Tu nombre</target>
+      </trans-unit>
+      <trans-unit id="eO3y4.6" resname="Text">
+         <source>Text</source>
+         <target>Comentario</target>
+      </trans-unit>
+      <trans-unit id="asrsa.6" resname="Photo">
+         <source>Photo</source>
+         <target>Foto</target>
+       </trans-unit>
+      <trans-unit id="ere3y.6" resname="Submit">
+         <source>Submit</source>
+         <target>Enviar</target>
+       </trans-unit>
+       <trans-unit id="DgPdar6" resname="nb_of_comments">
+         <source>nb_of_comments</source>
+         <target>{count, plural, =0 {Ningún comentario.} =1 {1 comentario.} other {# comentarios.}}</target>
+       </trans-unit>
+
+    </body>
+  </file>
+</xliff>
